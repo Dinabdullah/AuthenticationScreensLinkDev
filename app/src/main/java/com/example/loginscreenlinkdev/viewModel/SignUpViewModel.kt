@@ -1,6 +1,5 @@
 package com.example.loginscreenlinkdev.viewModel
 
-import android.content.Context
 import android.util.Patterns
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -12,26 +11,26 @@ class SignUpViewModel : ViewModel() {
     val password = mutableStateOf("")
     val conPassword = mutableStateOf("")
     val rememberMe = mutableStateOf(false)
-    val emailError = mutableStateOf<String?>(null)
-    val passwordError = mutableStateOf<String?>(null)
-    val confirmPasswordError = mutableStateOf<String?>(null)
+    val emailError = mutableStateOf<Int?>(null)
+    val passwordError = mutableStateOf<Int?>(null)
+    val confirmPasswordError = mutableStateOf<Int?>(null)
 
-    fun onSignUpClick(context: Context): Boolean {
-        val isEmailValid = validateEmail(context)
-        val isPasswordValid = validatePassword(context)
-        val isConfirmPasswordValid = validateConfirmPassword(context)
+    fun onSignUpClick(): Boolean {
+        val isEmailValid = validateEmail()
+        val isPasswordValid = validatePassword()
+        val isConfirmPasswordValid = validateConfirmPassword()
         return isEmailValid && isPasswordValid && isConfirmPasswordValid
     }
 
-    private fun validateEmail(context: Context): Boolean {
+    private fun validateEmail(): Boolean {
         return when {
             email.value.isBlank() -> {
-                emailError.value = context.getString(R.string.error_email_required)
+                emailError.value = R.string.error_email_required
                 false
             }
 
             !Patterns.EMAIL_ADDRESS.matcher(email.value).matches() -> {
-                emailError.value = context.getString(R.string.error_email_invalid)
+                emailError.value = R.string.error_email_invalid
                 false
             }
 
@@ -42,15 +41,15 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
-    private fun validatePassword(context: Context): Boolean {
+    private fun validatePassword(): Boolean {
         return when {
             password.value.isBlank() -> {
-                passwordError.value = context.getString(R.string.error_password_required)
+                passwordError.value = R.string.error_password_required
                 false
             }
 
             password.value.length < 6 -> {
-                passwordError.value = context.getString(R.string.error_password_short)
+                passwordError.value = R.string.error_password_short
                 false
             }
 
@@ -61,17 +60,17 @@ class SignUpViewModel : ViewModel() {
         }
     }
 
-    private fun validateConfirmPassword(context: Context): Boolean {
+    private fun validateConfirmPassword(): Boolean {
         return when {
             conPassword.value.isBlank() -> {
                 confirmPasswordError.value =
-                    context.getString(R.string.error_confirm_password_required)
+                    R.string.error_confirm_password_required
                 false
             }
 
             conPassword.value != password.value -> {
                 confirmPasswordError.value =
-                    context.getString(R.string.error_passwords_do_not_match)
+                    R.string.error_passwords_do_not_match
                 false
             }
 

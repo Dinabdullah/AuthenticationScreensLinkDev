@@ -1,6 +1,5 @@
 package com.example.loginscreenlinkdev.viewModel
 
-import android.content.Context
 import android.util.Patterns
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
@@ -11,8 +10,8 @@ class LoginViewModel : ViewModel() {
     val password = mutableStateOf("")
     val rememberMe = mutableStateOf(false)
 
-    val emailError = mutableStateOf<String?>(null)
-    val passwordError = mutableStateOf<String?>(null)
+    val emailError = mutableStateOf<Int?>(null)
+    val passwordError = mutableStateOf<Int?>(null)
 
     fun validateEmail(): Boolean {
         return email.value.isNotBlank() && Patterns.EMAIL_ADDRESS.matcher(email.value).matches()
@@ -22,19 +21,21 @@ class LoginViewModel : ViewModel() {
         return password.value.length >= 6
     }
 
-    fun onLoginClick(context: Context): Boolean {
+    fun onLoginClick(): Boolean {
         val isEmailValid = validateEmail().also {
-            emailError.value = if (!it) {
-                if (email.value.isBlank()) context.getString(R.string.error_email_required)
-                else context.getString(R.string.error_email_invalid)
-            } else null
+            emailError.value = when {
+                email.value.isBlank() -> R.string.error_email_required
+                !it -> R.string.error_email_invalid
+                else -> null
+            }
         }
 
         val isPasswordValid = validatePassword().also {
-            passwordError.value = if (!it) {
-                if (password.value.isBlank()) context.getString(R.string.error_password_required)
-                else context.getString(R.string.error_password_short)
-            } else null
+            passwordError.value = when {
+                password.value.isBlank() -> R.string.error_password_required
+                !it -> R.string.error_password_short
+                else -> null
+            }
         }
 
         return isEmailValid && isPasswordValid

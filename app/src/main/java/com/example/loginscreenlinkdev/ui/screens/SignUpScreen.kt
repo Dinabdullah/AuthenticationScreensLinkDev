@@ -105,7 +105,7 @@ fun SignUp(
 
             if (viewModel.emailError.value != null) {
                 Text(
-                    text = viewModel.emailError.value!!,
+                    text = stringResource(viewModel.emailError.value!!),
                     color = colorResource(R.color.text_error),
                     fontSize = dimensionResource(R.dimen.font_small).value.sp,
                     modifier = Modifier
@@ -141,7 +141,7 @@ fun SignUp(
             )
             if (viewModel.passwordError.value != null) {
                 Text(
-                    text = viewModel.passwordError.value!!,
+                    text = stringResource(viewModel.passwordError.value!!),
                     color = colorResource(R.color.text_error),
                     fontSize = dimensionResource(R.dimen.font_small).value.sp,
                     modifier = Modifier
@@ -177,7 +177,7 @@ fun SignUp(
             )
             if (viewModel.confirmPasswordError.value != null) {
                 Text(
-                    text = viewModel.confirmPasswordError.value!!,
+                    text = stringResource(viewModel.confirmPasswordError.value!!),
                     color = colorResource(R.color.text_error),
                     fontSize = dimensionResource(R.dimen.font_small).value.sp,
                     modifier = Modifier
@@ -192,7 +192,7 @@ fun SignUp(
             CustomButton(
                 text = stringResource(R.string._capital),
                 onClick = {
-                    val isValid = viewModel.onSignUpClick(context)
+                    val isValid = viewModel.onSignUpClick()
                     if (isValid) {
 
                     }
